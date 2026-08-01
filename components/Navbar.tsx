@@ -1,93 +1,135 @@
 "use client";
 
-import Link from "next/link";
-import { Menu, X, Package2 } from "lucide-react";
 import { useState } from "react";
-
-const links = [
-  { name: "Home", href: "/" },
-  { name: "About", href: "#about" },
-  { name: "Products", href: "#products" },
-  { name: "Contact", href: "#contact" },
-];
+import Link from "next/link";
+import DevelopmentPopup from "./DevelopmentPopup";
 
 export default function Navbar() {
-  const [open, setOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-200/60 bg-white/90 backdrop-blur-md">
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
+    <>
+      <header className="sticky top-0 z-50 bg-white shadow-md">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
 
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-3">
+          {/* Logo */}
 
-          <div className="rounded-xl bg-blue-900 p-2 text-white">
-            <Package2 size={24} />
-          </div>
+          <Link href="/" className="text-2xl font-bold text-blue-900">
+            Perfect Packers
+          </Link>
 
-          <div>
-            <h1 className="text-xl font-bold text-slate-900">
-              Perfect Packers
-            </h1>
+          {/* Desktop Menu */}
 
-            <p className="text-xs text-slate-500">
-              Corrugated Packaging
-            </p>
-          </div>
-        </Link>
+          <nav className="hidden items-center gap-8 md:flex">
 
-        {/* Desktop Menu */}
-
-        <nav className="hidden items-center gap-10 md:flex">
-          {links.map((link) => (
             <Link
-              key={link.name}
-              href={link.href}
-              className="font-medium text-slate-700 transition hover:text-blue-900"
+              href="/"
+              className="font-medium text-slate-700 hover:text-blue-900"
             >
-              {link.name}
+              Home
             </Link>
-          ))}
-        </nav>
 
-        {/* Desktop CTA */}
+            <Link
+              href="#about"
+              className="font-medium text-slate-700 hover:text-blue-900"
+            >
+              About
+            </Link>
 
-        <button className="hidden rounded-xl bg-blue-900 px-6 py-3 font-semibold text-white transition hover:bg-blue-800 md:block">
-          Get Quote
-        </button>
+            <Link
+              href="#products"
+              className="font-medium text-slate-700 hover:text-blue-900"
+            >
+              Products
+            </Link>
 
-        {/* Mobile */}
+            <Link
+              href="#contact"
+              className="font-medium text-slate-700 hover:text-blue-900"
+            >
+              Contact
+            </Link>
 
-        <button
-          onClick={() => setOpen(!open)}
-          className="md:hidden"
-        >
-          {open ? <X size={28} /> : <Menu size={28} />}
-        </button>
-      </div>
-
-      {open && (
-        <div className="border-t bg-white md:hidden">
-          <div className="flex flex-col gap-6 p-6">
-
-            {links.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                onClick={() => setOpen(false)}
-                className="text-lg"
-              >
-                {link.name}
-              </Link>
-            ))}
-
-            <button className="rounded-xl bg-blue-900 py-3 text-white">
+            <button
+              onClick={() => setShowPopup(true)}
+              className="rounded-xl bg-blue-900 px-6 py-3 font-semibold text-white transition hover:bg-blue-800"
+            >
               Get Quote
             </button>
 
-          </div>
+          </nav>
+
+          {/* Mobile Menu Button */}
+
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="text-3xl text-blue-900 md:hidden"
+          >
+            ☰
+          </button>
+
         </div>
-      )}
-    </header>
+
+        {/* Mobile Menu */}
+
+        {menuOpen && (
+          <div className="border-t bg-white md:hidden">
+
+            <div className="flex flex-col gap-4 p-6">
+
+              <Link
+                href="/"
+                onClick={() => setMenuOpen(false)}
+                className="font-medium text-slate-700"
+              >
+                Home
+              </Link>
+
+              <Link
+                href="#about"
+                onClick={() => setMenuOpen(false)}
+                className="font-medium text-slate-700"
+              >
+                About
+              </Link>
+
+              <Link
+                href="#products"
+                onClick={() => setMenuOpen(false)}
+                className="font-medium text-slate-700"
+              >
+                Products
+              </Link>
+
+              <Link
+                href="#contact"
+                onClick={() => setMenuOpen(false)}
+                className="font-medium text-slate-700"
+              >
+                Contact
+              </Link>
+
+              <button
+                onClick={() => {
+                  setMenuOpen(false);
+                  setShowPopup(true);
+                }}
+                className="rounded-xl bg-blue-900 py-3 font-semibold text-white"
+              >
+                Get Quote
+              </button>
+
+            </div>
+
+          </div>
+        )}
+      </header>
+
+      <DevelopmentPopup
+        isOpen={showPopup}
+        onClose={() => setShowPopup(false)}
+      />
+    </>
   );
 }
