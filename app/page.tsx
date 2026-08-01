@@ -17,7 +17,7 @@ export default function Home() {
       <WhyChooseUs />
       <Industries />
       <Process />
-      --<Contact />
+      <Contact />
     </>
   );
 }
